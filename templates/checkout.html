@@ -1,0 +1,278 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Style */
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 18px;
+            margin-top: 5px;
+        }
+
+        /* Checkout Container */
+        .checkout-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Checkout Header */
+        .checkout-header {
+            padding: 10px;
+            background-color: #e0e0e0;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .checkout-item {
+            display: flex;
+            justify-content: space-between;
+            background-color: white;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-item img {
+            width: 100px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .checkout-item-details {
+            flex-grow: 1;
+            padding: 0 10px;
+        }
+
+        .checkout-item-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .checkout-item-price {
+            color: #4CAF50;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        /* Total Section */
+        .total-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #e0e0e0;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        /* Form Styles */
+        .checkout-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-label {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .place-order-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .place-order-btn:hover {
+            background-color: #45a049;
+        }
+        nav.navbar {
+            background-color: #333;
+            padding: 10px;
+        }
+
+        nav.navbar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav.navbar ul li {
+            margin: 0 15px;
+        }
+
+        nav.navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav.navbar ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .checkout-container {
+                width: 95%;
+            }
+
+            .checkout-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .checkout-item img {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Checkout</h1>
+        <p>Complete your order</p>
+    </header>
+    {% if user.is_authenticated %}
+    <!-- Navigation for logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{% url 'plant_list' %}">Products</a></li>
+            <li><a href="{% url 'orders_list' %}">Your Orders</a></li>
+            <li><a href="{% url 'cart_view' %}">Cart</a></li>
+            <li><a href="{% url 'custom_logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+{% else %}
+    <!-- Navigation for non-logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="{% url 'product_list' %}">Product</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{% url 'login_view' %}">Login</a></li>
+            <li><a href="{% url 'register_view' %}">Register</a></li>
+        </ul>
+    </nav>
+{% endif %}
+    <!-- Checkout Container -->
+    <div class="checkout-container">
+
+        <!-- Checkout Header -->
+        <div class="checkout-header">
+            Your Cart Items
+        </div>
+
+        <!-- Checkout Items -->
+        {% for item in cart_items %}
+        <div class="checkout-item">
+            <img src="{{ item.plant.image.url }}" alt="{{ item.plant.name }}">
+            <div class="checkout-item-details">
+                <div class="checkout-item-name">{{ item.plant.name }}</div>
+                <div class="checkout-item-price">${{ item.plant.price }}</div>
+            </div>
+            <div class="checkout-item-price">${{ item.total_price }}</div>
+        </div>
+        {% empty %}
+        <p>Your cart is empty.</p>
+        {% endfor %}
+
+        <!-- Total Section -->
+        <div class="total-container">
+            <div>Total:</div>
+            <div>${{ total_price|floatformat:2 }}</div>
+        </div>
+
+        <!-- Checkout Form -->
+        <form method="POST" action="{% url 'checkout' %}" class="checkout-form">
+            {% csrf_token %}
+            <div>
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" name="name" id="name" class="form-input" required>
+            </div>
+
+            <div>
+                <label for="address" class="form-label">Shipping Address</label>
+                <textarea name="address" id="address" class="form-input" rows="4" required></textarea>
+            </div>
+
+            <div>
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="text" name="phone" id="phone" class="form-input" required>
+            </div>
+
+            <div>
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" name="email" id="email" class="form-input" required>
+            </div>
+
+            <button type="submit" class="place-order-btn">Place Order</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

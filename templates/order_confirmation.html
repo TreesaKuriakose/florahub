@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .order-details {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-details p,
+        .order-details ul {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .order-details strong {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .order-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .order-details ul li {
+            background-color: #fafafa;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .order-details ul li span {
+            font-weight: normal;
+        }
+
+        .order-details h3 {
+            font-size: 24px;
+            margin-top: 30px;
+            color: #333;
+        }
+
+        .order-summary {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .order-summary div {
+            padding: 10px;
+            background-color: #f4f4f9;
+            border-radius: 8px;
+        }
+        nav.navbar {
+            background-color: #333;
+            padding: 10px;
+        }
+
+        nav.navbar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav.navbar ul li {
+            margin: 0 15px;
+        }
+
+        nav.navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav.navbar ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .order-details {
+                width: 95%;
+            }
+
+            .order-details ul li {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Order Confirmation</h1>
+    </header>
+    {% if user.is_authenticated %}
+    <!-- Navigation for logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{% url 'plant_list' %}">Products</a></li>
+            <li><a href="{% url 'orders_list' %}">Your Orders</a></li>
+            <li><a href="{% url 'cart_view' %}">Cart</a></li>
+            <li><a href="{% url 'custom_logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+{% else %}
+    <!-- Navigation for non-logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="{% url 'product_list' %}">Product</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{% url 'login_view' %}">Login</a></li>
+            <li><a href="{% url 'register_view' %}">Register</a></li>
+        </ul>
+    </nav>
+{% endif %}
+
+    <div class="order-details">
+        <p>Thank you for your order!</p>
+        
+        <h3>Products in Your Order:</h3>
+        <ul>
+            {% for item in order.cart.items.all %}
+            <li>
+                <span>{{ item.plant.name }} ({{ item.quantity }})</span>
+                <span>${{ item.total_price }}</span>
+            </li>
+            {% empty %}
+            <p>No items in this order.</p>
+            {% endfor %}
+        </ul>
+
+        <div class="order-summary">
+            <div><strong>Order Total:</strong></div>
+            <div>${{ order.total_price }}</div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

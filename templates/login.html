@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Plant Nursery</title>
+
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Style */
+        header.header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 18px;
+            margin-top: 5px;
+        }
+
+        /* Navigation Bar Style */
+        nav.navbar {
+            background-color: #333;
+            padding: 10px;
+        }
+
+        nav.navbar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav.navbar ul li {
+            margin: 0 15px;
+        }
+
+        nav.navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav.navbar ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 500px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        /* Submit Button */
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Links */
+        p {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        p a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+
+        /* Error Message Styling */
+        .alert {
+            padding: 15px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 15px;
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            header p {
+                font-size: 16px;
+            }
+
+            nav.navbar ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav.navbar ul li {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Welcome to FLORAHUB</h1>
+        <p>Natural and healthy plants!</p>
+    </header>
+
+    {% if user.is_authenticated %}
+    <!-- Navigation for logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{% url 'plant_list' %}">Products</a></li>
+            <li><a href="{% url 'orders_list' %}">Your Orders</a></li>
+            <li><a href="{% url 'cart_view' %}">Cart</a></li>
+            <li><a href="{% url 'custom_logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+    {% else %}
+    <!-- Navigation for non-logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+           <li><a href="{% url 'product_list' %}">Product</a></li>
+            <!-- <li><a href="#contact">Contact</a></li> -->
+            <li><a href="{% url 'login_view' %}">Login</a></li>
+            <li><a href="{% url 'register_view' %}">Register</a></li>
+        </ul>
+    </nav>
+    {% endif %}
+
+    <div class="container">
+        <h1>Login</h1>
+
+        {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+
+        <form method="POST" action="{% url 'login1' %}">
+            {% csrf_token %}
+            
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Log In</button>
+        </form>
+
+        <p>Don't have an account? <a href="{% url 'register_view' %}">Register here</a>.</p>
+        <p><a href="{% url 'home' %}">Back to home</a></p>
+        <p><a href="{% url 'forget_password' %}">Forgot your password?</a></p>
+    </div>
+</body>
+</html>

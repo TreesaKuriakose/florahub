@@ -1,0 +1,92 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <style>
+        /* Styles similar to your previous checkout styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .payment-container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .order-details {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .payment-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .payment-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="payment-container">
+        <div class="payment-header">Payment for Order #{{ order.id }}</div>
+
+        <div class="order-details">
+            <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
+            <p><strong>Email:</strong> {{ order.shipping_email }}</p>
+            <p><strong>Phone:</strong> {{ order.shipping_phone }}</p>
+
+            <div class="order-item">
+                <span><strong>Total:</strong></span>
+                <span>${{ order.total_price }}</span>
+            </div>
+
+            <!-- Display order items here -->
+            {% for item in order.items.all %}
+            <div class="order-item">
+                <span>{{ item.plant.name }} ({{ item.quantity }})</span>
+                <span>${{ item.price_at_purchase * item.quantity }}</span>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Payment Form -->
+        <form method="POST" action="">
+            {% csrf_token %}
+            <button type="submit" class="payment-btn">Pay Now</button>
+        </form>
+    </div>
+
+</body>
+</html>

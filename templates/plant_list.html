@@ -1,0 +1,232 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant List</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        /* Header Style */
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 35px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 15px;
+            margin-top: 5px;
+            font-weight: 300;
+        }
+
+        /* Navigation Bar */
+        nav.navbar {
+            background-color: #333;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 15px;
+        }
+
+        nav.navbar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav.navbar ul li {
+            margin: 0 20px;
+        }
+
+        nav.navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        nav.navbar ul li a:hover {
+            color: #4CAF50;
+        }
+
+        /* Plant List Styles */
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .plant-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            margin: 15px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .plant-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .plant-card img {
+            width: 100%;
+            height: 250px; /* Increased height for a more premium look */
+            object-fit: cover;
+            border-radius: 12px 12px 0 0; /* Rounded corners on top */
+        }
+
+        .plant-card .details {
+            padding: 25px;
+        }
+
+        .plant-card h3 {
+            font-size: 26px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .plant-card p {
+            font-size: 16px;
+            color: #777;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .plant-card .price {
+            font-size: 20px;
+            color: #4CAF50;
+            margin: 15px 0;
+            font-weight: 700;
+        }
+
+        .plant-card .category {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .plant-card a {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .plant-card a:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+        }
+
+        /* Footer Style */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #333;
+            color: white;
+            margin-top: 50px;
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Welcome to FloraHub</h1>
+        <p>Explore our range of premium plants</p>
+    </header>
+
+    <!-- Navigation Bar -->
+    {% if user.is_authenticated %}
+    <!-- Navigation for logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+           
+            <li><a href="{% url 'plant_list' %}">Products</a></li>
+            <li><a href="{% url 'orders_list' %}">Your Orders</a></li>
+            <li><a href="{% url 'cart_view' %}">Cart</a></li>
+            <li><a href="{% url 'custom_logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+{% else %}
+    <!-- Navigation for non-logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="{% url 'product_list' %}">Product</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{% url 'login_view' %}">Login</a></li>
+            <li><a href="{% url 'register_view' %}">Register</a></li>
+        </ul>
+    </nav>
+{% endif %}
+
+    <!-- Plant Listing -->
+    <div class="container">
+        {% for plant in plants %}
+        <div class="plant-card">
+            <img src="{{ plant.image.url }}" alt="{{ plant.name }}">
+            <div class="details">
+                <h3>{{ plant.name }}</h3>
+                <p>{{ plant.description }}</p>
+                <div class="price">${{ plant.price }}</div>
+                <div class="category">Category: {{ plant.category.name }}</div>
+                <a href="{% url 'add_to_cart' plant.id %}">Add to cart</a>
+            </div>
+        </div>
+        {% empty %}
+        <p>No plants available at the moment.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Green Haven Plant Nursery. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,301 @@
+/* General page styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f9f4;
+    color: #333;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Stack everything vertically */
+    align-items: center; /* Center content horizontally */
+    justify-content: flex-start; /* Align content at the top */
+    min-height: 100vh;
+}
+
+/* Header styling */
+.header {
+    background-color: #2f5d62;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    width: 100%; /* Ensure the header spans the entire width */
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #333;
+    padding: 10px;
+    width: 100%; /* Make navbar span the full width of the page */
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.navbar ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.navbar ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Products Section Styling */
+/* .products-section {
+    padding: 50px 20px;
+    width: 100%; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 20px; 
+} */
+
+.products-section {
+    padding: 50px 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* .products {
+    display: flex;
+    justify-content: center; 
+    gap: 20px; 
+    flex-wrap: wrap; 
+    width: 100%;
+    max-width: 1200px; 
+} */
+
+.products {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* .product-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 220px; 
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+} */
+
+.product-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 220px; /* Fixed width for each product card */
+    height: 350px; /* Set a fixed height to make all cards the same size */
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute content evenly */
+}
+
+/* .product-card img {
+    width: 100%; 
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+} */
+
+.product-card img {
+    width: 100%; 
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* .product-card h3 {
+    font-size: 1rem;
+    margin: 10px 0;
+} */
+
+.product-card h3 {
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+
+
+/* .product-card p {
+    color: #555;
+    font-size: 0.9rem;
+} */
+
+
+.product-card p {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+/* .product-card button {
+    background-color: #2f5d62;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+} */
+
+.product-card button {
+    background-color: #2f5d62;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.product-card button:hover {
+    background-color: #4b7d70;
+}
+
+/* .product-card button:hover {
+    background-color: #4b7d70;
+} */
+
+/* About Us Section Styling */
+.about-section {
+    padding: 50px 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.about-section h2 {
+    color: #2f5d62;
+}
+
+.about-section p {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Contact Section Styling */
+.contact-section {
+    padding: 50px 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.contact-section p {
+    color: #555;
+    font-size: 1rem;
+}
+
+/* Footer Styling */
+.footer {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    width: 100%; /* Ensure the footer spans the entire width */
+}
+
+.footer a {
+    color: #2f5d62;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+
+.register-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    border-color: #5cb85c;
+    outline: none;
+}
+
+.submit-btn {
+    background-color: #5cb85c;
+    color: white;
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #4cae4c;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.login-link a {
+    color: #5cb85c;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+.error {
+    color: red;
+    font-size: 0.85rem;
+}

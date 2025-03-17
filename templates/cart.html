@@ -1,0 +1,321 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px 0;
+        }
+
+        /* Header Style */
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 18px;
+        }
+
+        /* Navigation Style */
+        nav.navbar {
+            background-color: #333;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        nav.navbar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav.navbar ul li {
+            margin: 0 15px;
+        }
+
+        nav.navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav.navbar ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Cart Styles */
+        .cart-container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .messages {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #e0e0e0;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            background-color: #fff;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+            padding: 0 10px;
+        }
+
+        .cart-item-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .cart-item-price {
+            color: #4CAF50;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .quantity-input {
+            width: 50px;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .remove-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .remove-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Total Section */
+        .total-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #e0e0e0;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        /* Checkout Button */
+        .checkout-btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .checkout-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Empty Cart Message */
+        .empty-cart {
+            text-align: center;
+            font-size: 18px;
+            color: #888;
+            padding: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .cart-container {
+                width: 90%;
+            }
+
+            .cart-header {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cart-item img {
+                width: 80px;
+                margin-bottom: 10px;
+            }
+
+            .cart-item-details {
+                padding: 0;
+            }
+
+            .cart-item-name,
+            .cart-item-price {
+                font-size: 16px;
+            }
+
+            .checkout-btn {
+                width: 100%;
+                padding: 12px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Shopping Cart</h1>
+        <p>Your selected plants</p>
+    </header>
+    
+    {% if user.is_authenticated %}
+    <!-- Navigation for logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+           
+            <li><a href="{% url 'plant_list' %}">Products</a></li>
+            <li><a href="{% url 'orders_list' %}">Your Orders</a></li>
+            <li><a href="{% url 'cart_view' %}">Cart</a></li>
+            <li><a href="{% url 'custom_logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+    {% else %}
+    <!-- Navigation for non-logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="{% url 'product_list' %}">Product</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{% url 'login_view' %}">Login</a></li>
+            <li><a href="{% url 'register_view' %}">Register</a></li>
+        </ul>
+    </nav>
+    {% endif %}
+
+    <!-- Displaying messages -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Cart Container -->
+    <div class="cart-container">
+        
+        <!-- Cart Header -->
+        <div class="cart-header">
+            <div>Item</div>
+            <div>Quantity</div>
+            <div>Price</div>
+            <div>Action</div>
+        </div>
+
+        <!-- Cart Items -->
+        {% for item in cart_items %}
+        <div class="cart-item">
+            <img src="{{ item.plant.image.url }}" alt="{{ item.plant.name }}">
+            <div class="cart-item-details">
+                <div class="cart-item-name">{{ item.plant.name }}</div>
+                <div class="cart-item-price">${{ item.plant.price }}</div>
+            </div>
+            <form method="POST" action="{% url 'update_quantity' item.id %}">
+                {% csrf_token %}
+                <input type="number" class="quantity-input" name="quantity" value="{{ item.quantity }}" min="1">
+                <button type="submit" class="remove-btn">Update</button>
+            </form>
+            <div class="cart-item-price">${{ item.total_price }}</div>
+            <!-- Remove item link -->
+            <a href="{% url 'remove_from_cart' item.id %}" class="remove-btn">Remove</a>
+        </div>
+        {% empty %}
+        <div class="empty-cart">
+            <p>Your cart is empty.</p>
+        </div>
+        {% endfor %}
+
+        <!-- Display the total and the checkout button only if there are items in the cart -->
+        {% if cart_items %}
+        <div class="total-container">
+            <div>Total:</div>
+            <div>${{ total_price|floatformat:2 }}</div>
+        </div>
+
+        <a href="{% url 'checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+        {% endif %}
+    </div>
+    
+</body>
+</html>

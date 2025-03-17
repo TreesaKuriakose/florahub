@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Nursery - Home</title>
+
+    <!-- Link to CSS file using static -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>Welcome to FLORAHUB</h1>
+        <p>Natural and healthy plants!</p>
+    </header>
+
+    <!-- Navigation Bar -->
+    {% if user.is_authenticated %}
+    <!-- Navigation for logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{% url 'plant_list' %}">Products</a></li>
+            <li><a href="{% url 'orders_list' %}">Your Orders</a></li>
+            <li><a href="{% url 'cart_view' %}">Cart</a></li>
+            <li><a href="{% url 'custom_logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+{% else %}
+    <!-- Navigation for non-logged-in users -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="{% url 'product_list' %}">Product</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{% url 'login_view' %}">Login</a></li>
+            <li><a href="{% url 'register_view' %}">Register</a></li>
+        </ul>
+    </nav>
+{% endif %}
+
+    <!-- Featured Products Section -->
+    <section id="products" class="products-section">
+        <h2>Featured Plants</h2>
+        <div class="products">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <img src="{% static 'images/snake.jpeg' %}" alt="Plant 2">
+                <h3>Snake Plant</h3>
+                
+                
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <img src="{% static 'images/snake.jpeg' %}" alt="Plant 2">
+                <h3>Snake Plant</h3>
+               
+                
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <img src="{% static 'images/plant3.jpg' %}" alt="Plant 2">
+                <h3>Succulent</h3>
+                
+                
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <img src="{% static 'images/plant4.jpg' %}" alt="Plant 2">
+                <h3>Monstera</h3>
+                
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section">
+        <h2>About Us</h2>
+        <p>Welcome to FLORAHUB, your ultimate destination for all things botanical! We are passionate about bringing nature closer to you, offering a wide selection of plants, gardening tools, and accessories that cater to both seasoned green thumbs and budding enthusiasts. At FLORAHUB, we believe that every home deserves a touch of greenery, and we strive to provide high-quality, healthy plants that enhance your living spaces and enrich your life. Our dedicated team is committed to curating a diverse range of plants from around the globe, ensuring you find the perfect addition to your garden or home. Join us on this journey to cultivate beauty and sustainability, one plant at a time!</p>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <h2>Contact Us</h2>
+        <p>Email: florahub@plant.com | Phone: 91 8564123654</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Green Haven Plant Nursery. All rights reserved.  </p>
+    </footer>
+</body>
+</html>
